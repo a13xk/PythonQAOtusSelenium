@@ -58,6 +58,9 @@ def driver_factory(browser_name: str, is_headless: bool = False):
 
 @pytest.fixture(scope="function")
 def is_headless(request):
+    """
+    Parse "--headless" tag from command line to run browser in headless mode
+    """
     if request.config.getoption(name="--headless"):
         return True
     else:
@@ -67,6 +70,9 @@ def is_headless(request):
 
 @pytest.fixture(scope="function")
 def browser(request, opencart_url, is_headless):
+    """
+    Launch browser and open page specified in --opencart_url command line option
+    """
     browser = request.config.getoption(name="--browser")
     driver = driver_factory(browser_name=browser, is_headless=is_headless)
     driver.maximize_window()
@@ -79,6 +85,9 @@ def browser(request, opencart_url, is_headless):
 
 @pytest.fixture(scope="function")
 def opencart_url(request):
+    """
+    URL of OpenCart page (absolute or relative to https://localhost)
+    """
     url = str(request.config.getoption("--opencart_url"))
     if url.startswith("https://localhost"):
         return url
@@ -104,7 +113,7 @@ def pytest_addoption(parser):
         "--opencart_url",
         action="store",
         default="https://localhost",
-        help="OpenCart base URL for tests (defaults to https://localhost)"
+        help="URL of OpenCart page (defaults to main page https://localhost)"
     )
 
     parser.addoption(
