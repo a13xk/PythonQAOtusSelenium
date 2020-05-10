@@ -1,1 +1,1 @@
-from .MainPage import MainPage
+from .main_page import MainPage
