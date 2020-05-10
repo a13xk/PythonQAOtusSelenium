@@ -37,8 +37,14 @@ def browser(request):
 
 
 @pytest.fixture(scope="function")
-def opencart_base_url(request):
-    return request.config.getoption("--opencart_url")
+def opencart_url(request):
+    url = str(request.config.getoption("--opencart_url"))
+    if url.startswith("https://localhost"):
+        return url
+    elif url.startswith("/"):
+        return f"https://localhost{url}"
+    else:
+        raise ValueError(f"Incorrect url: {url}")
 #
 
 
