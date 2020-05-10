@@ -1,6 +1,11 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
+from selenium.webdriver.opera.options import Options as OperaOptions
+
+
+OPERA_BROWSER_EXECUTABLE = "/usr/bin/opera"
+OPERA_WEBDRIVER_EXECUTABLE = "/usr/local/bin/operadriver"
 
 
 def driver_factory(browser_name: str, is_headless: bool = False):
@@ -29,8 +34,19 @@ def driver_factory(browser_name: str, is_headless: bool = False):
         # TODO: implement Yandex browser
         pass
     elif browser_name == "opera":
-        # TODO: implement Opera browser
-        pass
+        opera_options = OperaOptions()
+        opera_options.binary_location = OPERA_BROWSER_EXECUTABLE
+        if is_headless:
+            opera_options.add_argument("--headless")
+
+        capabilities = DesiredCapabilities.OPERA.copy()
+        capabilities['acceptSslCerts'] = True
+        capabilities['acceptInsecureCerts'] = True
+
+        driver = webdriver.Opera(
+            options=opera_options,
+            executable_path=OPERA_WEBDRIVER_EXECUTABLE,
+            desired_capabilities=capabilities)
     elif browser_name == "safari":
         # TODO: implement Safari browser
         pass
@@ -80,7 +96,7 @@ def pytest_addoption(parser):
         "--browser",
         action="store",
         default="firefox",
-        choices=["firefox", "chrome"],
+        choices=["firefox", "chrome", "opera"],
         help="Web driver for specified browser (defaults to firefox)"
     )
 
