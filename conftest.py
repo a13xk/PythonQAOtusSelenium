@@ -3,36 +3,61 @@ from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 
 
-@pytest.fixture(scope="function")
-def browser(request):
-    browser_name = request.config.getoption(name="--browser")
-    headless = request.config.getoption(name="--headless")
-
-    browser = None
+def driver_factory(browser_name: str, is_headless: bool = False):
+    """
+    Return webdriver object for a specified browser name
+    """
+    driver = None
 
     if browser_name == "firefox":
         firefox_options = webdriver.FirefoxOptions()
-        if headless:
+        if is_headless:
             firefox_options.add_argument("--headless")
-
-        browser = webdriver.Firefox(options=firefox_options)
+        driver = webdriver.Firefox(options=firefox_options)
     elif browser_name == "chrome":
         chrome_options = webdriver.ChromeOptions()
-        if headless:
+        if is_headless:
             chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--start-maximized")
-
         capabilities = DesiredCapabilities.CHROME.copy()
         capabilities['acceptSslCerts'] = True
         capabilities['acceptInsecureCerts'] = True
-
-        browser = webdriver.Chrome(
+        driver = webdriver.Chrome(
             options=chrome_options,
             desired_capabilities=capabilities
         )
+    elif browser_name == "yandex":
+        # TODO: implement Yandex browser
+        pass
+    elif browser_name == "opera":
+        # TODO: implement Opera browser
+        pass
+    elif browser_name == "safari":
+        # TODO: implement Safari browser
+        pass
+    else:
+        raise NameError("Browser not supported")
+    return driver
+#
 
-    yield browser
-    browser.quit()
+
+@pytest.fixture(scope="function")
+def is_headless(request):
+    if request.config.getoption(name="--headless"):
+        return True
+    else:
+        return False
+#
+
+
+@pytest.fixture(scope="function")
+def browser(request, opencart_url, is_headless):
+    browser = request.config.getoption(name="--browser")
+    driver = driver_factory(browser_name=browser, is_headless=is_headless)
+    driver.maximize_window()
+    driver.implicitly_wait(time_to_wait=5)
+    driver.get(url=opencart_url)
+    yield driver
+    driver.quit()
 #
 
 
