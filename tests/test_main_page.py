@@ -26,4 +26,5 @@ class TestMainPage:
     def test_slideshow(self, browser):
         h1_your_store = browser.find_element_by_link_text(link_text=MainPage.LINK_TEXT_YOUR_STORE)
         assert h1_your_store
+    #
 #
