@@ -1,5 +1,4 @@
-def test_main_page(browser, opencart_base_url):
-    browser.get(opencart_base_url)
+def test_main_page(browser):
     footer = browser.find_element_by_tag_name(name="footer")
     assert "OpenCart" in footer.text
 #
