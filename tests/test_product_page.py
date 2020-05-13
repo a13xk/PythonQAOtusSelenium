@@ -1,31 +1,35 @@
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
 from locators.product_page import ProductPage
 
 
 class TestProductPage:
 
     def test_product_product_by_id(self, browser):
-        div_product_product = browser.find_element_by_id(id_=ProductPage.ID_PRODUCT_PRODUCT)
-        assert div_product_product
+        wait = WebDriverWait(driver=browser, timeout=5)
+        wait.until(EC.visibility_of_element_located(locator=(By.ID, ProductPage.ID_PRODUCT_PRODUCT)))
     #
 
     def test_a_thumbnail_by_css(self, browser):
-        a_thumbnail = browser.find_element_by_css_selector(css_selector=ProductPage.CSS_A_THUMBNAIL)
-        assert a_thumbnail
+        wait = WebDriverWait(driver=browser, timeout=5)
+        wait.until(EC.visibility_of_element_located(locator=(By.CSS_SELECTOR, ProductPage.CSS_A_THUMBNAIL)))
     #
 
     def test_add_to_wish_list_button_by_xpath(self, browser):
-        button_add_to_wish_list = browser.find_element_by_xpath(xpath=ProductPage.XPATH_ADD_TO_WISHLIST_BUTTON)
-        assert button_add_to_wish_list
+        wait = WebDriverWait(driver=browser, timeout=5)
+        wait.until(EC.visibility_of_element_located(locator=(By.XPATH, ProductPage.XPATH_ADD_TO_WISHLIST_BUTTON)))
     #
 
     def test_add_to_cart_button_by_class_name(self, browser):
-        button_add_to_cart = browser.find_element_by_class_name(name=ProductPage.CLASS_ADD_TO_CART_BUTTON)
-        assert button_add_to_cart
+        wait = WebDriverWait(driver=browser, timeout=5)
+        wait.until(EC.visibility_of_element_located(locator=(By.CLASS_NAME, ProductPage.CLASS_ADD_TO_CART_BUTTON)))
     #
 
     def test_reviews_by_partial_link_text(self, browser):
-        a_reviews = browser.find_element_by_partial_link_text(link_text=ProductPage.PARTIAL_LINK_TEXT_REVIEWS)
-        assert a_reviews
+        wait = WebDriverWait(driver=browser, timeout=5)
+        wait.until(EC.visibility_of_element_located(locator=(By.PARTIAL_LINK_TEXT, ProductPage.PARTIAL_LINK_TEXT_REVIEWS)))
     #
 #
 
