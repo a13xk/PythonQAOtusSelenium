@@ -1,8 +1,14 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
+from selenium.webdriver.common.by import By
 from selenium.webdriver.opera.options import Options as OperaOptions
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
+from configuration import OpenCartConfiguration
+from locators import AdminLoginPage
+from locators.administration_page import AdministrationPage
 
 OPERA_BROWSER_EXECUTABLE = "/usr/bin/opera"
 OPERA_WEBDRIVER_EXECUTABLE = "/usr/local/bin/operadriver"
@@ -96,6 +102,30 @@ def opencart_url(request):
     else:
         raise ValueError(f"Incorrect url: {url}")
 #
+
+
+@pytest.fixture(scope="function")
+def login_to_administration_page(browser):
+    wait = WebDriverWait(driver=browser, timeout=15)
+    browser.get(url="https://localhost/admin/")
+    input_username = browser.find_element_by_id(id_=AdminLoginPage.ID_INPUT_USERNAME)
+    input_username.click()
+    input_username.send_keys(OpenCartConfiguration.ADMIN_USERNAME)
+
+    input_password = browser.find_element_by_id(id_=AdminLoginPage.ID_INPUT_PASSWORD)
+    input_password.click()
+    input_password.send_keys(OpenCartConfiguration.ADMIN_PASSWORD)
+
+    login_button = browser.find_element_by_xpath(xpath=AdminLoginPage.XPATH_LOGIN_BUTTON)
+    login_button.click()
+    wait.until(EC.visibility_of_element_located(locator=(By.XPATH, AdministrationPage.XPATH_DASHBOARD_HEADING)))
+
+    yield browser
+
+    logout_button = browser.find_element_by_xpath(xpath=AdministrationPage.XPATH_LOGOUT_BUTTON)
+    logout_button.click()
+
+    wait.until(EC.visibility_of_element_located(locator=(By.ID, AdminLoginPage.ID_INPUT_PASSWORD)))
 
 
 # Init hook
