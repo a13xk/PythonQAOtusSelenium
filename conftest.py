@@ -76,7 +76,7 @@ def browser(request, opencart_url, is_headless):
     browser = request.config.getoption(name="--browser")
     driver = driver_factory(browser_name=browser, is_headless=is_headless)
     driver.maximize_window()
-    driver.implicitly_wait(time_to_wait=5)
+    # driver.implicitly_wait(time_to_wait=5)
     driver.get(url=opencart_url)
     yield driver
     driver.quit()
