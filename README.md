@@ -30,7 +30,7 @@
     ```
 2. Страница каталога:
     ```bash
-    pytest -v tests/test_catalog_page.py --browser=chrome --opencart_url=/index.php?route=product/category
+    pytest -v tests/test_catalog_page.py --browser=chrome --opencart_url=/index.php?route=product/category\&path=20
     ```
 3. Страница товара:
     ```bash
