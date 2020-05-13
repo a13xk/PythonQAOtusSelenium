@@ -1,4 +1,4 @@
-class AdminPage:
+class AdminLoginPage:
     ID_HEADER_LOGO = "header-logo"
     ID_INPUT_USERNAME = "input-username"
     ID_INPUT_PASSWORD = "input-password"
