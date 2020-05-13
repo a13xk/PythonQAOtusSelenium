@@ -4,6 +4,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from configuration import OpenCartConfiguration
 from locators.admin_login_page import AdminLoginPage
+from locators.administration_page import AdministrationPage
 
 
 class TestAdminPage:
@@ -45,9 +46,9 @@ class TestAdminPage:
 
         login_button = browser.find_element_by_xpath(xpath=AdminLoginPage.XPATH_LOGIN_BUTTON)
         login_button.click()
-        wait.until(EC.visibility_of_element_located(locator=(By.XPATH, AdminLoginPage.XPATH_DASHBOARD_HEADING)))
+        wait.until(EC.visibility_of_element_located(locator=(By.XPATH, AdministrationPage.XPATH_DASHBOARD_HEADING)))
 
-        logout_button = browser.find_element_by_xpath(xpath=AdminLoginPage.XPATH_LOGOUT_BUTTON)
+        logout_button = browser.find_element_by_xpath(xpath=AdministrationPage.XPATH_LOGOUT_BUTTON)
         logout_button.click()
 
         wait.until(EC.visibility_of_element_located(locator=(By.ID, AdminLoginPage.ID_INPUT_PASSWORD)))
