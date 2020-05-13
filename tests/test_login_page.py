@@ -1,30 +1,34 @@
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
 from locators.login_page import LoginPage
 
 
 class TestLoginPage:
 
     def test_account_login_by_id(self, browser):
-        div_account_login = browser.find_element_by_id(id_=LoginPage.ID_ACCOUNT_LOGIN)
-        assert div_account_login
+        wait = WebDriverWait(driver=browser, timeout=5)
+        wait.until(EC.visibility_of_element_located(locator=(By.ID, LoginPage.ID_ACCOUNT_LOGIN)))
     #
 
     def test_button_login_by_css(self, browser):
-        button_login = browser.find_element_by_css_selector(css_selector=LoginPage.CSS_BUTTON_LOGIN)
-        assert button_login
+        wait = WebDriverWait(driver=browser, timeout=5)
+        wait.until(EC.visibility_of_element_located(locator=(By.CSS_SELECTOR, LoginPage.CSS_BUTTON_LOGIN)))
     #
 
     def test_continue_button_by_xpath(self, browser):
-        button_continue = browser.find_element_by_xpath(xpath=LoginPage.XPATH_CONTINUE_BUTTON)
-        assert button_continue
+        wait = WebDriverWait(driver=browser, timeout=5)
+        wait.until(EC.visibility_of_element_located(locator=(By.XPATH, LoginPage.XPATH_CONTINUE_BUTTON)))
     #
 
     def test_list_group_by_class_name(self, browser):
-        div_list_group = browser.find_element_by_class_name(name=LoginPage.CLASS_LIST_GROUP)
-        assert div_list_group
+        wait = WebDriverWait(driver=browser, timeout=5)
+        wait.until(EC.visibility_of_element_located(locator=(By.CLASS_NAME, LoginPage.CLASS_LIST_GROUP)))
     #
 
     def test_forgotten_password_by_link_text(self, browser):
-        a_forgotten_password = browser.find_element_by_link_text(link_text=LoginPage.LINK_TEXT_FORGOTTEN_PASSWORD)
-        assert a_forgotten_password
+        wait = WebDriverWait(driver=browser, timeout=5)
+        wait.until(EC.visibility_of_element_located(locator=(By.LINK_TEXT, LoginPage.LINK_TEXT_FORGOTTEN_PASSWORD)))
     #
 #
