@@ -3,6 +3,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from configuration import OpenCartConfiguration
+from locators.add_product_page import AddProductPage
 from locators.admin_login_page import AdminLoginPage
 from locators.administration_page import AdministrationPage
 
@@ -64,5 +65,36 @@ class TestAdminPage:
         catalog_products = wait.until(EC.visibility_of_element_located(locator=(By.XPATH, AdministrationPage.XPATH_CATALOG_PRODUCTS_LINK)))
         catalog_products.click()
         wait.until(EC.visibility_of_element_located(locator=(By.XPATH, AdministrationPage.XPATH_PRODUCTS_TABLE)))
+    #
+
+    def test_add_new_product(self, browse_to_catalog_products_table):
+        browser = browse_to_catalog_products_table
+        wait = WebDriverWait(driver=browser, timeout=5)
+
+        add_new_button = browser.find_element_by_xpath(xpath=AdministrationPage.XPATH_ADD_NEW_BUTTON)
+        add_new_button.click()
+        wait.until(EC.presence_of_element_located(locator=(By.ID, AddProductPage.ID_PRODUCT_FORM)))
+
+        product_name = browser.find_element_by_id(id_=AddProductPage.ID_INPUT_PRODUCT_NAME)
+        product_name.clear()
+        product_name.send_keys("New product")
+
+        meta_tag_title = browser.find_element_by_id(id_=AddProductPage.ID_INPUT_META_TAG_TITLE)
+        meta_tag_title.clear()
+        meta_tag_title.send_keys("metatag")
+
+        data_tab = browser.find_element_by_xpath(xpath=AddProductPage.XPATH_DATA_TAB)
+        data_tab.click()
+        wait.until(EC.visibility_of_element_located(locator=(By.ID, AddProductPage.ID_DATA_TAB)))
+
+        model = browser.find_element_by_id(id_=AddProductPage.ID_INPUT_MODEL)
+        model.clear()
+        model.send_keys("New model")
+
+        save_button = browser.find_element_by_xpath(xpath=AddProductPage.XPATH_SAVE_BUTTON)
+        save_button.click()
+
+        div_alert_success = wait.until(EC.visibility_of_element_located(locator=(By.CSS_SELECTOR, AddProductPage.CSS_DIV_ALERT_SUCCESS)))
+        assert "Success: You have modified products!" in div_alert_success.get_property(name="innerHTML")
     #
 #
