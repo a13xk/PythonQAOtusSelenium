@@ -1,3 +1,4 @@
+from .add_product_page import AddProductPage
 from .admin_login_page import AdminLoginPage
 from .catalog_page import CatalogPage
 from .login_page import LoginPage
