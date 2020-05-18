@@ -69,3 +69,30 @@ pytest -v tests/test_admin_page.py::TestAdminPage::test_login_logout --browser=c
 ```bash
 pytest -v tests/test_admin_page.py::TestAdminPage::test_browse_to_catalog_products_table --browser=chrome --opencart_url=https://localhost/admin/
 ```
+
+## 2 месяц, модуль 11 - JavaScript in Selenium
+
+### Домашнее задание
+
+Работа с элементами.
+Цель: Попрактиковаться в работе со свойствами элементов.
+Для страницы Products реализовать тесты, которые проверяют:
+1) Функциональность добавления.
+2) Функциональность изменения.
+3) Функциональность удаления продукта.
+Дополнительно: Реализовать предусловие, которое гарантирует наличие продукта в списке для тестов удаления и редактирования. 
+
+### Решение
+
+1. Добавление продукта:
+    ```bash
+    pytest -v tests/test_admin_page.py::TestAdminPage::test_add_new_product
+    ```
+2. Удаление продукта:
+    ```bash
+    pytest -v tests/test_admin_page.py::TestAdminPage::test_delete_product
+    ```
+3. Изменение продукта:
+    ```bash
+    pytest -v tests/test_admin_page.py::TestAdminPage::test_edit_product
+    ```
