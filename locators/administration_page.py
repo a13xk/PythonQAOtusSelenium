@@ -6,4 +6,5 @@ class AdministrationPage:
     XPATH_PRODUCTS_TABLE = "//form[@id='form-product']//table"
     XPATH_ADD_NEW_BUTTON = "//a[@data-original-title='Add New']"
     XPATH_DELETE_BUTTON = "//button[@data-original-title='Delete']"
+    XPATH_DISMISS_ALERT = "//button[@data-dismiss='alert']"
 #
