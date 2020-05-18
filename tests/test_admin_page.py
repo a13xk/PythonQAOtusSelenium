@@ -97,4 +97,27 @@ class TestAdminPage:
         div_alert_success = wait.until(EC.visibility_of_element_located(locator=(By.CSS_SELECTOR, AddProductPage.CSS_DIV_ALERT_SUCCESS)))
         assert "Success: You have modified products!" in div_alert_success.get_property(name="innerHTML")
     #
+
+    def test_delete_product(self, add_new_product, product_table, new_product_name):
+        browser = add_new_product
+        wait = WebDriverWait(driver=browser, timeout=5)
+
+        # Find product by name in table
+        product_id = ""
+        rows = product_table.find_all(name="tr")
+        for row in rows:
+            tds = row.find_all(name="td")
+            if tds[2].text == new_product_name:
+                product_id = tds[0].find(name="input").get("value")
+                break
+        checkbox = browser.find_element_by_xpath(xpath=f"//input[@value='{product_id}']")
+        checkbox.click()
+
+        delete_button = browser.find_element_by_xpath(xpath=AdministrationPage.XPATH_DELETE_BUTTON)
+        delete_button.click()
+        wait.until(EC.alert_is_present())
+
+        alert = browser.switch_to.alert
+        alert.accept()
+    #
 #
