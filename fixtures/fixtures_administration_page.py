@@ -97,3 +97,9 @@ def product_table(browse_to_catalog_products_table) -> BeautifulSoup:
 def new_product_name() -> str:
     return "New product"
 #
+
+
+@pytest.fixture(scope="function")
+def modified_product_name() -> str:
+    return "Modified product"
+#

@@ -120,4 +120,33 @@ class TestAdminPage:
         alert = browser.switch_to.alert
         alert.accept()
     #
+
+    def test_edit_product(self, add_new_product, product_table, new_product_name, modified_product_name):
+        browser = add_new_product
+        wait = WebDriverWait(driver=browser, timeout=5)
+
+        # Find product by name in table
+        product_id = ""
+        rows = product_table.find_all(name="tr")
+        for row in rows:
+            tds = row.find_all(name="td")
+            if tds[2].text == new_product_name:
+                product_id = tds[0].find(name="input").get("value")
+                break
+        edit_button = browser.find_element_by_xpath(xpath=f"//a[contains(@href, 'product_id={product_id}')]")
+        edit_button.click()
+        wait.until(EC.presence_of_element_located(locator=(By.ID, AddProductPage.ID_PRODUCT_FORM)))
+
+        product_name = browser.find_element_by_id(id_=AddProductPage.ID_INPUT_PRODUCT_NAME)
+        product_name.clear()
+        product_name.send_keys(modified_product_name)
+
+        save_button = browser.find_element_by_xpath(xpath=AddProductPage.XPATH_SAVE_BUTTON)
+        save_button.click()
+
+        div_alert_success = wait.until(EC.visibility_of_element_located(locator=(By.CSS_SELECTOR, AddProductPage.CSS_DIV_ALERT_SUCCESS)))
+        assert "Success: You have modified products!" in div_alert_success.get_property(name="innerHTML")
+
+        modified_product = browser.find_element_by_xpath(xpath=f"//td[contains(text(), '{modified_product_name}')]")
+        assert modified_product
 #
