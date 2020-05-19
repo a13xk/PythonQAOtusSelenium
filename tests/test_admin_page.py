@@ -3,6 +3,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from configuration import OpenCartConfiguration
+from locators.add_product_page import AddProductPage
 from locators.admin_login_page import AdminLoginPage
 from locators.administration_page import AdministrationPage
 
@@ -65,4 +66,87 @@ class TestAdminPage:
         catalog_products.click()
         wait.until(EC.visibility_of_element_located(locator=(By.XPATH, AdministrationPage.XPATH_PRODUCTS_TABLE)))
     #
+
+    def test_add_new_product(self, browse_to_catalog_products_table):
+        browser = browse_to_catalog_products_table
+        wait = WebDriverWait(driver=browser, timeout=5)
+
+        add_new_button = browser.find_element_by_xpath(xpath=AdministrationPage.XPATH_ADD_NEW_BUTTON)
+        add_new_button.click()
+        wait.until(EC.presence_of_element_located(locator=(By.ID, AddProductPage.ID_PRODUCT_FORM)))
+
+        product_name = browser.find_element_by_id(id_=AddProductPage.ID_INPUT_PRODUCT_NAME)
+        product_name.clear()
+        product_name.send_keys("New product")
+
+        meta_tag_title = browser.find_element_by_id(id_=AddProductPage.ID_INPUT_META_TAG_TITLE)
+        meta_tag_title.clear()
+        meta_tag_title.send_keys("metatag")
+
+        data_tab = browser.find_element_by_xpath(xpath=AddProductPage.XPATH_DATA_TAB)
+        data_tab.click()
+        wait.until(EC.visibility_of_element_located(locator=(By.ID, AddProductPage.ID_DATA_TAB)))
+
+        model = browser.find_element_by_id(id_=AddProductPage.ID_INPUT_MODEL)
+        model.clear()
+        model.send_keys("New model")
+
+        save_button = browser.find_element_by_xpath(xpath=AddProductPage.XPATH_SAVE_BUTTON)
+        save_button.click()
+
+        div_alert_success = wait.until(EC.visibility_of_element_located(locator=(By.CSS_SELECTOR, AddProductPage.CSS_DIV_ALERT_SUCCESS)))
+        assert "Success: You have modified products!" in div_alert_success.get_property(name="innerHTML")
+    #
+
+    def test_delete_product(self, add_new_product, product_table, new_product_name):
+        browser = add_new_product
+        wait = WebDriverWait(driver=browser, timeout=5)
+
+        # Find product by name in table
+        product_id = ""
+        rows = product_table.find_all(name="tr")
+        for row in rows:
+            tds = row.find_all(name="td")
+            if tds[2].text == new_product_name:
+                product_id = tds[0].find(name="input").get("value")
+                break
+        checkbox = browser.find_element_by_xpath(xpath=f"//input[@value='{product_id}']")
+        checkbox.click()
+
+        delete_button = browser.find_element_by_xpath(xpath=AdministrationPage.XPATH_DELETE_BUTTON)
+        delete_button.click()
+        wait.until(EC.alert_is_present())
+
+        alert = browser.switch_to.alert
+        alert.accept()
+    #
+
+    def test_edit_product(self, add_new_product, product_table, new_product_name, modified_product_name):
+        browser = add_new_product
+        wait = WebDriverWait(driver=browser, timeout=5)
+
+        # Find product by name in table
+        product_id = ""
+        rows = product_table.find_all(name="tr")
+        for row in rows:
+            tds = row.find_all(name="td")
+            if tds[2].text == new_product_name:
+                product_id = tds[0].find(name="input").get("value")
+                break
+        edit_button = browser.find_element_by_xpath(xpath=f"//a[contains(@href, 'product_id={product_id}')]")
+        edit_button.click()
+        wait.until(EC.presence_of_element_located(locator=(By.ID, AddProductPage.ID_PRODUCT_FORM)))
+
+        product_name = browser.find_element_by_id(id_=AddProductPage.ID_INPUT_PRODUCT_NAME)
+        product_name.clear()
+        product_name.send_keys(modified_product_name)
+
+        save_button = browser.find_element_by_xpath(xpath=AddProductPage.XPATH_SAVE_BUTTON)
+        save_button.click()
+
+        div_alert_success = wait.until(EC.visibility_of_element_located(locator=(By.CSS_SELECTOR, AddProductPage.CSS_DIV_ALERT_SUCCESS)))
+        assert "Success: You have modified products!" in div_alert_success.get_property(name="innerHTML")
+
+        modified_product = browser.find_element_by_xpath(xpath=f"//td[contains(text(), '{modified_product_name}')]")
+        assert modified_product
 #
