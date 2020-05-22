@@ -4,7 +4,39 @@ from selenium.webdriver.common.by import By
 
 class TestAdministrationPage:
 
-    def test_browse_to_catalog_products_table(self, administration_page):
+    def test_browse_to_catalog_categories(self, administration_page):
+        administration_page.open_catalog()
+        administration_page.find_element(locator=administration_page.A_MENU_CATALOG_CATEGORIES).click()
+        assert administration_page.find_element(locator=administration_page.TABLE_CATEGORIES)
+    #
+
+    def test_browse_to_recurring_profiles(self, administration_page):
+        administration_page.open_catalog()
+        administration_page.find_element(locator=administration_page.A_MENU_CATALOG_RECURRING_PROFILES).click()
+        assert administration_page.find_element(locator=administration_page.TABLE_RECURRING_PROFILES)
+    #
+
+    def test_browse_to_filters(self, administration_page):
+        administration_page.open_catalog()
+        administration_page.find_element(locator=administration_page.A_MENU_CATALOG_FILTERS).click()
+        assert administration_page.find_element(locator=administration_page.TABLE_FILTERS)
+    #
+
+    def test_browse_to_attributes(self, administration_page):
+        administration_page.open_catalog()
+        administration_page.find_element(locator=administration_page.A_MENU_CATALOG_ATTRIBUTES).click()
+        administration_page.find_element(locator=administration_page.A_MENU_CATALOG_ATTRIBUTES_ATTRIBUTES).click()
+        assert administration_page.find_element(locator=administration_page.TABLE_ATTRIBUTES)
+    #
+
+    def test_browse_to_attribute_groups(self, administration_page):
+        administration_page.open_catalog()
+        administration_page.find_element(locator=administration_page.A_MENU_CATALOG_ATTRIBUTES).click()
+        administration_page.find_element(locator=administration_page.A_MENU_CATALOG_ATTRIBUTES_ATTRIBUTE_GROUPS).click()
+        assert administration_page.find_element(locator=administration_page.TABLE_ATTRIBUTE_GROUPS)
+    #
+
+    def test_browse_to_catalog_products(self, administration_page):
         administration_page.open_catalog()
         administration_page.find_element(locator=administration_page.A_MENU_CATALOG_PRODUCTS).click()
         assert administration_page.find_element(locator=administration_page.TABLE_PRODUCTS)

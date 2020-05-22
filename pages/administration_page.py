@@ -14,7 +14,14 @@ class AdministrationPage(BasePage):
 
     """ Locators: Catalog pane"""
     A_MENU_CATALOG = (By.XPATH, "//li[@id='menu-catalog']//a[@href='#collapse1']")
+    A_MENU_CATALOG_CATEGORIES = (By.XPATH, "//a[contains(@href, 'catalog/category') and contains(text(), 'Categories')]")
     A_MENU_CATALOG_PRODUCTS = (By.XPATH, "//a[contains(@href, 'catalog/product') and contains(text(), 'Products')]")
+    A_MENU_CATALOG_RECURRING_PROFILES = (By.XPATH, "//a[contains(@href, 'catalog/recurring') and contains(text(), 'Recurring Profiles')]")
+    A_MENU_CATALOG_FILTERS = (By.XPATH, "//a[contains(@href, 'catalog/filter') and contains(text(), 'Filters')]")
+    A_MENU_CATALOG_ATTRIBUTES = (By.XPATH, "//li[@id='menu-catalog']//li/a[@href='#collapse1-4']")
+    A_MENU_CATALOG_ATTRIBUTES_ATTRIBUTES = (By.XPATH, "//a[contains(@href, 'catalog/attribute') and contains(text(), 'Attributes')]")
+    A_MENU_CATALOG_ATTRIBUTES_ATTRIBUTE_GROUPS = (By.XPATH, "//a[contains(@href, 'catalog/attribute_group') and contains(text(), 'Attribute Groups')]")
+
     A_ADD_NEW = (By.XPATH, "//a[@data-original-title='Add New']")
 
     """ Locators: Products table """
@@ -30,6 +37,21 @@ class AdministrationPage(BasePage):
     DIV_ALERT_SUCCESS = (By.CSS_SELECTOR, "div.alert.alert-success")
     BUTTON_DISMISS_ALERT = (By.XPATH, "//button[@data-dismiss='alert']")
     INPUT_CHECKBOX = (By.XPATH, "//tbody//tr/td[1]/input")
+
+    """ Locators: Categories table """
+    TABLE_CATEGORIES = (By.XPATH, "//form[@id='form-category']//table")
+
+    """ Locators: Recurring Profiles table """
+    TABLE_RECURRING_PROFILES = (By.XPATH, "//form[@id='form-recurring']//table")
+
+    """ Locators: Filters table """
+    TABLE_FILTERS = (By.XPATH, "//form[@id='form-filter']//table")
+
+    """ Locators: Attributes table """
+    TABLE_ATTRIBUTES = (By.XPATH, "//form[@id='form-attribute']//table")
+
+    """ Locators: Attribute Groups table """
+    TABLE_ATTRIBUTE_GROUPS = (By.XPATH, "//form[@id='form-attribute-group']//table")
 
     def __init__(self, driver):
         self.driver = driver
