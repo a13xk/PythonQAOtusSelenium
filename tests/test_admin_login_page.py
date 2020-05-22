@@ -1,4 +1,4 @@
-from configuration import OpenCartConfiguration
+from configuration import OpenCart
 from pages.administration_page import AdministrationPage
 
 
@@ -26,8 +26,8 @@ class TestAdminLoginPage:
 
     def test_login_logout(self, admin_login_page, browser):
         admin_login_page.log_in(
-            username=OpenCartConfiguration.ADMIN_USERNAME,
-            password=OpenCartConfiguration.ADMIN_PASSWORD
+            username=OpenCart.ADMIN_USERNAME,
+            password=OpenCart.ADMIN_PASSWORD
         )
         administration_page = AdministrationPage(driver=browser)
         assert administration_page.find_element(locator=administration_page.DIV_DASHBOARD)
