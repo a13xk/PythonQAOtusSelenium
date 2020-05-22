@@ -13,7 +13,7 @@ class ProductPage(BasePage):
 
     def __init__(self, driver):
         self.driver = driver
-        self.url = "https://localhost//index.php?route=product/product&path=57&product_id=49"
+        self.url = "https://localhost/index.php?route=product/product&path=57&product_id=49"
         super().__init__(driver=self.driver, url=self.url)
     #
 #
