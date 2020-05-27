@@ -96,3 +96,47 @@ pytest -v tests/test_admin_page.py::TestAdminPage::test_browse_to_catalog_produc
     ```bash
     pytest -v tests/test_admin_page.py::TestAdminPage::test_edit_product
     ```
+
+## 2 месяц, модуль 12 - Архитектура веб-тестов (Page Object, Page Element)
+
+### Домашнее задание
+PageObject.
+Цель: Научиться реализовывать паттерн PageObject на практике.
+В имеющемся проекте автоматизации приложения OpenCart на данный момент имеются описания селекторов страниц и небольшой пул автотестов.
+Необходимо перевести код на паттерн PageObject. Добавить 5 новых тестов написанных в этой парадигме.
+Выбор функциональности или сценариев остается на ваше усмотрение.
+Критерии оценки: Тесты проекта выполнены в парадигме PageObject.
+
+### Решение
+
+* Имеющиеся тесты переведены на паттерн Page Object:
+    ```bash
+    pytest -v --browser=chrome tests/test_admin_login_page.py::TestAdminLoginPage
+    pytest -v --browser=chrome tests/test_administration_page.py::TestAdministrationPage
+    pytest -v --browser=chrome tests/test_catalog_page.py::TestCatalogPage
+    pytest -v --browser=chrome tests/test_login_page.py::TestLoginPage
+    pytest -v --browser=chrome tests/test_main_page.py::TestMainPage
+    pytest -v --browser=chrome tests/test_product_page.py::TestProductPage
+    ```
+* Добавлены 5 новых тестов.
+
+1. Просмотр страницы **Catalog** → **Categories**:
+    ```bash
+    pytest -v --browser=chrome tests/test_administration_page.py::TestAdministrationPage::test_browse_to_catalog_categories
+    ```
+2. Просмотр страницы **Catalog** → **Recurring Profiles**:
+    ```bash
+    pytest -v --browser=chrome tests/test_administration_page.py::TestAdministrationPage::test_browse_to_recurring_profiles
+    ```
+3. Просмотр страницы **Catalog** → **Filters**:
+    ```bash
+    pytest -v --browser=chrome tests/test_administration_page.py::TestAdministrationPage::test_browse_to_filters
+    ```
+4. Просмотр страницы **Catalog** → **Attributes** → **Attributes**:
+    ```bash
+    pytest -v --browser=chrome tests/test_administration_page.py::TestAdministrationPage::test_browse_to_attributes
+    ```
+5. Просмотр страницы **Catalog** → **Attributes** → **Attribute Groups**:
+    ```bash
+    pytest -v --browser=chrome tests/test_administration_page.py::TestAdministrationPage::test_browse_to_attribute_groups
+    ```

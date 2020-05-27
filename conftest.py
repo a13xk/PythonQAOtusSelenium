@@ -4,7 +4,12 @@ from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.opera.options import Options as OperaOptions
 
 pytest_plugins = [
-    "fixtures.fixtures_administration_page"
+    "fixtures.fixtures_admin_login_page",
+    "fixtures.fixtures_administration_page",
+    "fixtures.fixtures_catalog_page",
+    "fixtures.fixtures_login_page",
+    "fixtures.fixtures_main_page",
+    "fixtures.fixtures_product_page"
 ]
 
 OPERA_BROWSER_EXECUTABLE = "/usr/bin/opera"
