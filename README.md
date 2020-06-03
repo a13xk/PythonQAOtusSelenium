@@ -140,3 +140,24 @@ PageObject.
     ```bash
     pytest -v --browser=chrome tests/test_administration_page.py::TestAdministrationPage::test_browse_to_attribute_groups
     ```
+
+## 2 месяц, модуль 13 - Архитектура веб-тестов (Page Object, Page Element)
+
+### Домашнее задание
+
+Написать тест создания товара с добавлением картинок
+Цель: Научиться загружать файлы на сервер
+(1) Простой уровень - обязательный
+1.1. Перейти на адрес https://developer.mozilla.org/ru/docs/Web/HTML/Element/Input/file
+1.2. Найти элемент "Выберите файл"
+1.3. Загрузить файл на сервер
+
+(2*) Сложный уровень - необязательный
+2.1. Открыть опенкарт - админку - страницу редактирования товара
+2.2. Добавить фото (с помощью javascript)
+
+### Решение
+
+```bash
+pytest -v --browser=chrome tests/test_upload_file.py
+```
