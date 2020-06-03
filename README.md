@@ -141,7 +141,7 @@ PageObject.
     pytest -v --browser=chrome tests/test_administration_page.py::TestAdministrationPage::test_browse_to_attribute_groups
     ```
 
-## 2 месяц, модуль 13 - Архитектура веб-тестов (Page Object, Page Element)
+## 2 месяц, модуль 13 - Работа с окнами
 
 ### Домашнее задание
 
