@@ -10,7 +10,7 @@ def mozilla_input_page(browser) -> MozillaInputPage:
     mozilla_input_page.open_page()
     frame = mozilla_input_page.find_element(locator=mozilla_input_page.FRAME_BASIC_EXAMPLE)
     browser.execute_script("arguments[0].scrollIntoView();", frame)
-    browser.switch_to_frame(frame_reference=frame)
+    browser.switch_to.frame(frame_reference=frame)
     return mozilla_input_page
 #
 
