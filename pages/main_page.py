@@ -1,3 +1,4 @@
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 from .base_page import BasePage
@@ -11,8 +12,8 @@ class MainPage(BasePage):
     DIV_CLASS_SLIDESHOW = (By.CLASS_NAME, "swiper-container.swiper-container-horizontal")
     A_YOUR_STORE = (By.LINK_TEXT, "Your Store")
 
-    def __init__(self, driver):
-        self.driver = driver
+    def __init__(self, driver: webdriver):
+        self.driver: webdriver = driver
         super().__init__(driver=self.driver)
     #
 #

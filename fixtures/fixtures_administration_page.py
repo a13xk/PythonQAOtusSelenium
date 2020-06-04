@@ -1,11 +1,13 @@
 import pytest
+from selenium import webdriver
 
 from configuration import OpenCart
+from pages.admin_login_page import AdminLoginPage
 from pages.administration_page import AdministrationPage
 
 
 @pytest.fixture(scope="function")
-def administration_page(admin_login_page, browser):
+def administration_page(admin_login_page: AdminLoginPage, browser: webdriver) -> AdministrationPage:
     admin_login_page.log_in(
         username=OpenCart.ADMIN_USERNAME,
         password=OpenCart.ADMIN_PASSWORD
@@ -35,7 +37,7 @@ def product_info() -> dict:
 
 
 @pytest.fixture(scope="function")
-def add_new_product(catalog_products_page, product_info):
+def add_new_product(catalog_products_page, product_info) -> AdministrationPage:
     catalog_products_page.add_product(
         product_name=product_info.get("product_name"),
         meta_tag_title=product_info.get("meta_tag_title"),

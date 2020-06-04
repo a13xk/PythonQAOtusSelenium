@@ -1,7 +1,10 @@
 import pytest
+from _pytest.config.argparsing import Parser
+from _pytest.fixtures import FixtureRequest
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.opera.options import Options as OperaOptions
+
 
 pytest_plugins = [
     "fixtures.fixtures_admin_login_page",
@@ -17,7 +20,7 @@ OPERA_BROWSER_EXECUTABLE = "/usr/bin/opera"
 OPERA_WEBDRIVER_EXECUTABLE = "/usr/local/bin/operadriver"
 
 
-def driver_factory(browser_name: str, is_headless: bool = False):
+def driver_factory(browser_name: str, is_headless: bool = False) -> webdriver:
     """
     Return webdriver object for a specified browser name
     """
@@ -66,7 +69,7 @@ def driver_factory(browser_name: str, is_headless: bool = False):
 
 
 @pytest.fixture(scope="function")
-def is_headless(request):
+def is_headless(request: FixtureRequest) -> bool:
     """
     Parse "--headless" tag from command line to run browser in headless mode
     """
@@ -78,22 +81,21 @@ def is_headless(request):
 
 
 @pytest.fixture(scope="function")
-def browser(request, opencart_url, is_headless):
+def browser(request: FixtureRequest, opencart_url: str, is_headless: bool) -> webdriver:
     """
     Launch browser and open page specified in --opencart_url command line option
     """
     browser = request.config.getoption(name="--browser")
     driver = driver_factory(browser_name=browser, is_headless=is_headless)
+    request.addfinalizer(driver.quit)
     driver.maximize_window()
-    # driver.implicitly_wait(time_to_wait=5)
     driver.get(url=opencart_url)
-    yield driver
-    driver.quit()
+    return driver
 #
 
 
 @pytest.fixture(scope="function")
-def opencart_url(request):
+def opencart_url(request: FixtureRequest) -> str:
     """
     URL of OpenCart page (absolute or relative to https://localhost)
     """
@@ -108,7 +110,7 @@ def opencart_url(request):
 
 
 # Init hook
-def pytest_addoption(parser):
+def pytest_addoption(parser: Parser):
 
     parser.addoption(
         "--browser",

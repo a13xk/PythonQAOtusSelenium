@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -53,9 +54,9 @@ class AdministrationPage(BasePage):
     """ Locators: Attribute Groups table """
     TABLE_ATTRIBUTE_GROUPS = (By.XPATH, "//form[@id='form-attribute-group']//table")
 
-    def __init__(self, driver):
-        self.driver = driver
-        self.URL = "https://localhost/admin/index.php?route=common/dashboard"
+    def __init__(self, driver: webdriver):
+        self.driver: webdriver = driver
+        self.URL: str = "https://localhost/admin/index.php?route=common/dashboard"
         super().__init__(driver=self.driver, url=self.URL)
     #
 

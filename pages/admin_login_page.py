@@ -1,3 +1,4 @@
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 from .base_page import BasePage
@@ -14,9 +15,9 @@ class AdminLoginPage(BasePage):
     DIV_PANEL_HEADING = (By.CLASS_NAME, "panel-heading")
     A_OPENCART = (By.LINK_TEXT, "OpenCart")
 
-    def __init__(self, driver):
-        self.driver = driver
-        self.url = "https://localhost/admin"
+    def __init__(self, driver: webdriver):
+        self.driver: webdriver = driver
+        self.url: str = "https://localhost/admin"
         self.timeout: int = 15
         super().__init__(driver=self.driver, url=self.url, timeout=self.timeout)
     #

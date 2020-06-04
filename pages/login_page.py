@@ -1,3 +1,4 @@
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 from .base_page import BasePage
@@ -11,9 +12,9 @@ class LoginPage(BasePage):
     DIV_LIST_GROUP = (By.CLASS_NAME, "list-group")
     A_FORGOTTEN_PASSWORD = (By.LINK_TEXT, "Forgotten Password")
 
-    def __init__(self, driver):
-        self.driver = driver
-        self.url = "https://localhost/index.php?route=account/login"
+    def __init__(self, driver: webdriver):
+        self.driver: webdriver = driver
+        self.url: str = "https://localhost/index.php?route=account/login"
         super().__init__(driver=self.driver, url=self.url)
     #
 #

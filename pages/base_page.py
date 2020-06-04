@@ -1,8 +1,4 @@
-from typing import Union
-
-from selenium.webdriver.chrome.webdriver import WebDriver as ChromeWebDriver
-from selenium.webdriver.firefox.webdriver import WebDriver as FirefoxWebDriver
-from selenium.webdriver.opera.webdriver import WebDriver as OperaWebDriver
+from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -10,15 +6,15 @@ from selenium.webdriver.support.wait import WebDriverWait
 class BasePage:
 
     def __init__(self,
-                 driver: Union[ChromeWebDriver, FirefoxWebDriver, OperaWebDriver],
+                 driver: webdriver,
                  url: str = "",
                  timeout: int = 10):
-        self.driver: Union[ChromeWebDriver, FirefoxWebDriver, OperaWebDriver] = driver
+        self.driver: webdriver = driver
         if not url:
             self.url: str = "https://localhost"
         else:
-            self.url = url
-        self.timeout = timeout
+            self.url: str = url
+        self.timeout: int = timeout
     #
 
     def find_element(self, locator):

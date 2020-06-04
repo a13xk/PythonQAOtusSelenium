@@ -1,3 +1,4 @@
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 from .base_page import BasePage
@@ -11,9 +12,9 @@ class CatalogPage(BasePage):
     UL_BREADCRUMB = (By.CLASS_NAME, "breadcrumb")
     A_PRODUCT_COMPARE = (By.PARTIAL_LINK_TEXT, "Product Compare")
 
-    def __init__(self, driver):
-        self.driver = driver
-        self.url = "https://localhost/index.php?route=product/category&path=20"
+    def __init__(self, driver: webdriver):
+        self.driver: webdriver = driver
+        self.url: str = "https://localhost/index.php?route=product/category&path=20"
         super().__init__(driver=self.driver, url=self.url)
     #
 #

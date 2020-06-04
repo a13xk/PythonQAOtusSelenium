@@ -1,11 +1,12 @@
 import pytest
+from selenium import webdriver
 
 from configuration import SAMPLE_FILE_PATH
 from pages.mozilla_input_page import MozillaInputPage
 
 
 @pytest.fixture(scope="function")
-def mozilla_input_page(browser) -> MozillaInputPage:
+def mozilla_input_page(browser: webdriver) -> MozillaInputPage:
     mozilla_input_page = MozillaInputPage(driver=browser)
     mozilla_input_page.open_page()
     frame = mozilla_input_page.find_element(locator=mozilla_input_page.FRAME_BASIC_EXAMPLE)
