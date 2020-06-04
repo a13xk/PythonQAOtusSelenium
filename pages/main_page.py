@@ -12,8 +12,8 @@ class MainPage(BasePage):
     DIV_CLASS_SLIDESHOW = (By.CLASS_NAME, "swiper-container.swiper-container-horizontal")
     A_YOUR_STORE = (By.LINK_TEXT, "Your Store")
 
-    def __init__(self, driver: webdriver):
+    def __init__(self, driver: webdriver, logging_enabled: bool):
         self.driver: webdriver = driver
-        super().__init__(driver=self.driver)
+        super().__init__(driver=self.driver, logging_enabled=logging_enabled)
     #
 #

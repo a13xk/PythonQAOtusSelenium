@@ -7,12 +7,12 @@ from pages.administration_page import AdministrationPage
 
 
 @pytest.fixture(scope="function")
-def administration_page(admin_login_page: AdminLoginPage, browser: webdriver) -> AdministrationPage:
+def administration_page(admin_login_page: AdminLoginPage, browser: webdriver, base_class_logging: bool) -> AdministrationPage:
     admin_login_page.log_in(
         username=OpenCart.ADMIN_USERNAME,
         password=OpenCart.ADMIN_PASSWORD
     )
-    administration_page = AdministrationPage(driver=browser)
+    administration_page = AdministrationPage(driver=browser, logging_enabled=base_class_logging)
     yield administration_page
     administration_page.log_out()
 #
