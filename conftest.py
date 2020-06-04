@@ -9,7 +9,8 @@ pytest_plugins = [
     "fixtures.fixtures_catalog_page",
     "fixtures.fixtures_login_page",
     "fixtures.fixtures_main_page",
-    "fixtures.fixtures_product_page"
+    "fixtures.fixtures_product_page",
+    "fixtures.fixtures_mozilla_input_page"
 ]
 
 OPERA_BROWSER_EXECUTABLE = "/usr/bin/opera"
@@ -112,7 +113,7 @@ def pytest_addoption(parser):
     parser.addoption(
         "--browser",
         action="store",
-        default="firefox",
+        default="chrome",
         choices=["firefox", "chrome", "opera"],
         help="Web driver for specified browser (defaults to firefox)"
     )
