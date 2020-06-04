@@ -19,7 +19,7 @@ def administration_page(admin_login_page: AdminLoginPage, browser: webdriver) ->
 
 
 @pytest.fixture(scope="function")
-def catalog_products_page(administration_page) -> AdministrationPage:
+def catalog_products_page(administration_page: AdministrationPage) -> AdministrationPage:
     administration_page.open_catalog_products()
     return administration_page
 #
@@ -37,7 +37,7 @@ def product_info() -> dict:
 
 
 @pytest.fixture(scope="function")
-def add_new_product(catalog_products_page, product_info) -> AdministrationPage:
+def add_new_product(catalog_products_page: AdministrationPage, product_info: dict) -> AdministrationPage:
     catalog_products_page.add_product(
         product_name=product_info.get("product_name"),
         meta_tag_title=product_info.get("meta_tag_title"),
