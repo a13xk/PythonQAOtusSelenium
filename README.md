@@ -170,3 +170,33 @@ PageObject.
 ```bash
 pytest -v --browser=chrome tests/test_upload_file.py
 ```
+
+## 2 месяц, модуль 14 - Протоколирование и отчетность
+
+### Домашнее задание
+
+Протоколирование
+
+Настроить протоколирование проекта
+
+Критерии оценки:
+
+* 1 балл - за настроенный event_firing_webdriver (в том числе снятие скриншотов при падениях драйвера)
+* 1 балл - запись лога в файл
+* 1 балл - работа с логом с помощью модуля logging
+* 1 балл - снятие логов с браузера
+* 1 балл - настройка логирования http запросов через proxy 
+
+### Решение
+
+Логирование в базовом классе:
+
+```bash
+pytest -v --browser=chrome --base_class_logging tests/test_catalog_page.py
+```
+
+Логирование с помощью подхода Event Firing Webdriver:
+
+```bash
+pytest -v --browser=chrome --webdriver_logging tests/test_product_page.py
+```

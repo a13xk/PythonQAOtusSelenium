@@ -4,7 +4,9 @@ from _pytest.fixtures import FixtureRequest
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.opera.options import Options as OperaOptions
+from selenium.webdriver.support.events import EventFiringWebDriver
 
+from configuration import DriverEventListener
 
 pytest_plugins = [
     "fixtures.fixtures_admin_login_page",
@@ -20,7 +22,7 @@ OPERA_BROWSER_EXECUTABLE = "/usr/bin/opera"
 OPERA_WEBDRIVER_EXECUTABLE = "/usr/local/bin/operadriver"
 
 
-def driver_factory(browser_name: str, is_headless: bool = False) -> webdriver:
+def driver_factory(browser_name: str, is_headless: bool = False, webdriver_logging: bool = False) -> webdriver:
     """
     Return webdriver object for a specified browser name
     """
@@ -30,7 +32,13 @@ def driver_factory(browser_name: str, is_headless: bool = False) -> webdriver:
         firefox_options = webdriver.FirefoxOptions()
         if is_headless:
             firefox_options.add_argument("--headless")
-        driver = webdriver.Firefox(options=firefox_options)
+        if webdriver_logging:
+            driver = EventFiringWebDriver(
+                driver=webdriver.Firefox(options=firefox_options),
+                event_listener=DriverEventListener(log_filename=f"{browser_name}.log")
+            )
+        else:
+            driver = webdriver.Firefox(options=firefox_options)
     elif browser_name == "chrome":
         chrome_options = webdriver.ChromeOptions()
         if is_headless:
@@ -38,10 +46,20 @@ def driver_factory(browser_name: str, is_headless: bool = False) -> webdriver:
         capabilities = DesiredCapabilities.CHROME.copy()
         capabilities['acceptSslCerts'] = True
         capabilities['acceptInsecureCerts'] = True
-        driver = webdriver.Chrome(
-            options=chrome_options,
-            desired_capabilities=capabilities
-        )
+
+        if webdriver_logging:
+            driver = EventFiringWebDriver(
+                driver=webdriver.Chrome(
+                    options=chrome_options,
+                    desired_capabilities=capabilities
+                ),
+                event_listener=DriverEventListener(log_filename=f"{browser_name}.log")
+            )
+        else:
+            driver = webdriver.Chrome(
+                options=chrome_options,
+                desired_capabilities=capabilities
+            )
     elif browser_name == "yandex":
         # TODO: implement Yandex browser
         pass
@@ -55,10 +73,21 @@ def driver_factory(browser_name: str, is_headless: bool = False) -> webdriver:
         capabilities['acceptSslCerts'] = True
         capabilities['acceptInsecureCerts'] = True
 
-        driver = webdriver.Opera(
-            options=opera_options,
-            executable_path=OPERA_WEBDRIVER_EXECUTABLE,
-            desired_capabilities=capabilities)
+        if webdriver_logging:
+            driver = EventFiringWebDriver(
+                driver=webdriver.Opera(
+                    options=opera_options,
+                    executable_path=OPERA_WEBDRIVER_EXECUTABLE,
+                    desired_capabilities=capabilities
+                ),
+                event_listener=DriverEventListener(log_filename=f"{browser_name}.log")
+            )
+        else:
+            driver = webdriver.Opera(
+                options=opera_options,
+                executable_path=OPERA_WEBDRIVER_EXECUTABLE,
+                desired_capabilities=capabilities
+            )
     elif browser_name == "safari":
         # TODO: implement Safari browser
         pass
@@ -81,12 +110,42 @@ def is_headless(request: FixtureRequest) -> bool:
 
 
 @pytest.fixture(scope="function")
-def browser(request: FixtureRequest, opencart_url: str, is_headless: bool) -> webdriver:
+def base_class_logging(request) -> bool:
+    """
+    Parse "--base_class_logging" tag from command line to log
+    actions in base class and its descendants
+    """
+    if request.config.getoption(name="--base_class_logging"):
+        return True
+    else:
+        return False
+#
+
+
+@pytest.fixture(scope="function")
+def webdriver_logging(request) -> bool:
+    """
+    Parse "--webdriver_logging" tag from command line to run browser
+    in event firing webdriver mode (log webdriver actions)
+    """
+    if request.config.getoption(name="--webdriver_logging"):
+        return True
+    else:
+        return False
+#
+
+
+@pytest.fixture(scope="function")
+def browser(request: FixtureRequest, opencart_url: str, is_headless: bool, webdriver_logging: bool):
     """
     Launch browser and open page specified in --opencart_url command line option
     """
     browser = request.config.getoption(name="--browser")
-    driver = driver_factory(browser_name=browser, is_headless=is_headless)
+    driver = driver_factory(
+        browser_name=browser,
+        is_headless=is_headless,
+        webdriver_logging=webdriver_logging
+    )
     request.addfinalizer(driver.quit)
     driver.maximize_window()
     driver.get(url=opencart_url)
@@ -131,5 +190,17 @@ def pytest_addoption(parser: Parser):
         "--headless",
         action="store_true",
         help="Run browser in headless mode (by default browser starts with GUI)"
+    )
+
+    parser.addoption(
+        "--base_class_logging",
+        action="store_true",
+        help="Log actions in base class and its descendants"
+    )
+
+    parser.addoption(
+        "--webdriver_logging",
+        action="store_true",
+        help="Log webdriver actions"
     )
 #

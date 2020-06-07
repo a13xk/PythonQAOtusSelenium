@@ -24,12 +24,12 @@ class TestAdminLoginPage:
         assert admin_login_page.find_element(locator=admin_login_page.A_OPENCART)
     #
 
-    def test_login_logout(self, admin_login_page, browser):
+    def test_login_logout(self, admin_login_page, browser, base_class_logging):
         admin_login_page.log_in(
             username=OpenCart.ADMIN_USERNAME,
             password=OpenCart.ADMIN_PASSWORD
         )
-        administration_page = AdministrationPage(driver=browser)
+        administration_page = AdministrationPage(driver=browser, logging_enabled=base_class_logging)
         assert administration_page.find_element(locator=administration_page.DIV_DASHBOARD)
         administration_page.log_out()
     #
