@@ -136,7 +136,7 @@ def webdriver_logging(request) -> bool:
 
 
 @pytest.fixture(scope="function")
-def browser(request: FixtureRequest, opencart_url: str, is_headless: bool, webdriver_logging: bool):
+def browser(request: FixtureRequest, opencart_url: str, is_headless: bool, webdriver_logging: bool) -> webdriver:
     """
     Launch browser and open page specified in --opencart_url command line option
     """
@@ -145,6 +145,30 @@ def browser(request: FixtureRequest, opencart_url: str, is_headless: bool, webdr
         browser_name=browser,
         is_headless=is_headless,
         webdriver_logging=webdriver_logging
+    )
+    request.addfinalizer(driver.quit)
+    driver.maximize_window()
+    driver.get(url=opencart_url)
+    return driver
+#
+
+
+@pytest.fixture(scope="function")
+def remote_browser(request: FixtureRequest, opencart_url: str) -> webdriver:
+    """
+    Launch browser in Selenium Hub specified by 'executor' url
+    and open page specified in --opencart_url command line option
+    """
+    browser = request.config.getoption(name="--browser")
+    executor = request.config.getoption(name="--executor")
+    capabilities = {
+        "browserName": browser,
+        "acceptSslCerts": True,
+        "acceptInsecureCerts": True
+    }
+    driver = webdriver.Remote(
+        command_executor=f"http://{executor}:4444/wd/hub",
+        desired_capabilities=capabilities
     )
     request.addfinalizer(driver.quit)
     driver.maximize_window()
@@ -174,9 +198,16 @@ def pytest_addoption(parser: Parser):
     parser.addoption(
         "--browser",
         action="store",
-        default="chrome",
+        default="firefox",
         choices=["firefox", "chrome", "opera"],
         help="Web driver for specified browser (defaults to firefox)"
+    )
+
+    parser.addoption(
+        "--executor",
+        action="store",
+        default="localhost",
+        help="URL of the remote server (defaults to 'http://localhost:4444/wd/hub')"
     )
 
     parser.addoption(
