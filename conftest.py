@@ -161,13 +161,18 @@ def remote_browser(request: FixtureRequest, opencart_url: str) -> webdriver:
     """
     browser = request.config.getoption(name="--browser")
     executor = request.config.getoption(name="--executor")
+    capabilities = {
+        "browserName": browser,
+        "acceptSslCerts": True,
+        "acceptInsecureCerts": True
+    }
     driver = webdriver.Remote(
         command_executor=f"http://{executor}:4444/wd/hub",
-        desired_capabilities={"browserName": browser}
+        desired_capabilities=capabilities
     )
     request.addfinalizer(driver.quit)
     driver.maximize_window()
-    driver.get(url=opencart_url)
+    # driver.get(url=opencart_url)
     return driver
 #
 
