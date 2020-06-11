@@ -161,14 +161,9 @@ def remote_browser(request: FixtureRequest, opencart_url: str) -> webdriver:
     """
     browser = request.config.getoption(name="--browser")
     executor = request.config.getoption(name="--executor")
-    capabilities = {
-        "browserName": browser,
-        "acceptSslCerts": True,
-        "acceptInsecureCerts": True
-    }
     driver = webdriver.Remote(
         command_executor=f"http://{executor}:4444/wd/hub",
-        desired_capabilities=capabilities
+        desired_capabilities={"browserName": browser}
     )
     request.addfinalizer(driver.quit)
     driver.maximize_window()
@@ -183,7 +178,7 @@ def opencart_url(request: FixtureRequest) -> str:
     URL of OpenCart page (absolute or relative to https://localhost)
     """
     url = str(request.config.getoption("--opencart_url"))
-    if url.startswith("https://localhost"):
+    if url.startswith("https://localhost") or url.startswith("https://demo.opencart.com"):
         return url
     elif url.startswith("/"):
         return f"https://localhost{url}"
@@ -198,7 +193,7 @@ def pytest_addoption(parser: Parser):
     parser.addoption(
         "--browser",
         action="store",
-        default="firefox",
+        default="chrome",
         choices=["firefox", "chrome", "opera"],
         help="Web driver for specified browser (defaults to firefox)"
     )
