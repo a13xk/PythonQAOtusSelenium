@@ -54,12 +54,15 @@ class AdministrationPage(BasePage):
     """ Locators: Attribute Groups table """
     TABLE_ATTRIBUTE_GROUPS = (By.XPATH, "//form[@id='form-attribute-group']//table")
 
-    def __init__(self, driver: webdriver, logging_enabled: bool):
+    def __init__(self, driver: webdriver, url: str, logging_enabled: bool):
         self.driver: webdriver = driver
-        self.URL: str = "https://localhost/admin/index.php?route=common/dashboard"
+        if not url:
+            self.url: str = "https://localhost/admin/index.php?route=common/dashboard"
+        else:
+            self.url: str = url
         super().__init__(
             driver=self.driver,
-            url=self.URL,
+            url=self.url,
             logging_enabled=logging_enabled
         )
     #
