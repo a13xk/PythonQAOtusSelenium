@@ -176,6 +176,32 @@ def remote_browser(request: FixtureRequest) -> webdriver:
 
 
 @pytest.fixture(scope="function")
+def remote_browserstack(request: FixtureRequest)  -> webdriver:
+    """
+    Launch browser in BrowserStack service specified by 'browserstack_executor' url
+    """
+
+    browserstack_executor = request.config.getoption(name="--browserstack_executor")
+
+    desired_cap = {
+
+        'os': 'Windows',
+        'os_version': '10',
+        'browser': 'Chrome',
+        'browser_version': '80',
+        'name': "alexanderknyazev2's First Test"
+    }
+
+    driver = webdriver.Remote(
+        command_executor=browserstack_executor,
+        desired_capabilities=desired_cap
+    )
+    request.addfinalizer(driver.quit)
+    return driver
+#
+
+
+@pytest.fixture(scope="function")
 def opencart_url(request: FixtureRequest) -> str:
     """
     URL of OpenCart page (absolute or relative to https://localhost)
@@ -206,6 +232,13 @@ def pytest_addoption(parser: Parser):
         action="store",
         default="localhost",
         help="URL of the remote server (defaults to 'http://localhost:4444/wd/hub')"
+    )
+
+    parser.addoption(
+        "--browserstack_executor",
+        action="store",
+        default="https://alexanderknyazev2:sDCeYxp5XUhfQKQ8oxfy@hub-cloud.browserstack.com/wd/hub",
+        help="URL of the BrowserStack server"
     )
 
     parser.addoption(
