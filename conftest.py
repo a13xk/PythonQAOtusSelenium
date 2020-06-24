@@ -154,10 +154,9 @@ def browser(request: FixtureRequest, opencart_url: str, is_headless: bool, webdr
 
 
 @pytest.fixture(scope="function")
-def remote_browser(request: FixtureRequest, opencart_url: str) -> webdriver:
+def remote_browser(request: FixtureRequest) -> webdriver:
     """
     Launch browser in Selenium Hub specified by 'executor' url
-    and open page specified in --opencart_url command line option
     """
     browser = request.config.getoption(name="--browser")
     executor = request.config.getoption(name="--executor")
@@ -172,7 +171,6 @@ def remote_browser(request: FixtureRequest, opencart_url: str) -> webdriver:
     )
     request.addfinalizer(driver.quit)
     driver.maximize_window()
-    # driver.get(url=opencart_url)
     return driver
 #
 
