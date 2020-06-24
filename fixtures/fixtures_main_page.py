@@ -18,3 +18,11 @@ def remote_main_page(remote_browser: webdriver, opencart_url: str, base_class_lo
     main_page.open_page()
     return main_page
 #
+
+
+@pytest.fixture(scope="function")
+def remote_browserstack_main_page(remote_browserstack: webdriver, opencart_url: str, base_class_logging: bool) -> MainPage:
+    main_page = MainPage(driver=remote_browserstack, url=opencart_url, logging_enabled=base_class_logging)
+    main_page.open_page()
+    return main_page
+#
