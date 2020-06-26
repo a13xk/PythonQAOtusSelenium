@@ -12,9 +12,12 @@ class ProductPage(BasePage):
     BUTTON_ADD_TO_CART = (By.CLASS_NAME, "btn.btn-primary.btn-lg.btn-block")
     A_REVIEWS = (By.PARTIAL_LINK_TEXT, "Reviews ")
 
-    def __init__(self, driver: webdriver, logging_enabled: bool):
+    def __init__(self, driver: webdriver, url: str, logging_enabled: bool):
         self.driver: webdriver = driver
-        self.url: str = "https://localhost/index.php?route=product/product&path=57&product_id=49"
+        if not url:
+            self.url: str = "https://localhost/index.php?route=product/product&path=57&product_id=49"
+        else:
+            self.url = url
         super().__init__(
             driver=self.driver,
             url=self.url,

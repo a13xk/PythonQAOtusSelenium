@@ -15,9 +15,12 @@ class AdminLoginPage(BasePage):
     DIV_PANEL_HEADING = (By.CLASS_NAME, "panel-heading")
     A_OPENCART = (By.LINK_TEXT, "OpenCart")
 
-    def __init__(self, driver: webdriver, logging_enabled: bool):
+    def __init__(self, driver: webdriver, url: str, logging_enabled: bool):
         self.driver: webdriver = driver
-        self.url: str = "https://localhost/admin"
+        if not url:
+            self.url: str = "https://localhost/admin"
+        else:
+            self.url: str = url
         self.timeout: int = 15
         super().__init__(
             driver=self.driver,

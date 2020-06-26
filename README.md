@@ -200,3 +200,64 @@ pytest -v --browser=chrome --base_class_logging tests/test_catalog_page.py
 ```bash
 pytest -v --browser=chrome --webdriver_logging tests/test_product_page.py
 ```
+
+## 2 месяц, модуль 15 - Удаленный запуск (Grid)
+
+### Домашнее задание
+
+Постройте небольшой грид, научитесь использовать облачный грид
+1) Установите виртуальную машину, внутри которой работает Windows/Linux, и создайте грид, который состоит из диспетчера, 
+работающего на вашей основной машине, и двух узлов -- один тоже на основной машине, а другой внутри виртуальной машины.
+
+Настройте узлы так, чтобы в виртуальной машине был доступен браузер Firefox/Chrome, а на основной машине, наоборот, он был недоступен.
+
+Попробуйте запустить какие-нибудь тесты удалённо на этом гриде, указывая разные браузеры, и убедитесь, что Firefox/Chrome, 
+действительно запускается внутри виртуальной машины, а другие браузеры, наоборот, на вашей основной машине.
+
+Можно использовать любую систему виртуализации, но если у вас нет предпочтений -- берите https://www.virtualbox.org/
+
+Готовые образы Windows для разных систем виртуализации можно найти здесь: https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/
+
+2) Запустить несколько тестов в каком-нибудь облачном сервисе на выбор:
+
+https://www.browserstack.com/
+https://www.gridlastic.com/
+https://saucelabs.com/
+https://testingbot.com/
+
+Критерии оценки: 
+1) Ссылка на коммит + скриншот консоли грида
+2) Ссылка на коммит + скриншот с облачного сервиса
+
+### Решение
+
+#### 1. Запуск тестов в ноде (виртуальной машине)
+
+Предварительно необходимо установить виртуальную машину, установить на ней браузер Chrome и его вебдрайвер, настроить сетевое 
+подключение (адаптер 1 - Host-only Adapter, адаптер 2 - Bridged Adapter).
+
+1. На хосте (Kubuntu 20.04) запустить Selenium Server в роли хаба:
+```bash
+java -jar selenium-server-standalone-3.141.59.jar -role hub
+```
+
+2. На виртуальной машине (Windows 10) запустить Selenium Server в роли ноды:
+```bash
+java -jar .\selenium-server-standalone-3.141.59.jar -role node -hub http://192.168.56.1:4444/grid/register/
+```
+, где `http://192.168.56.1:4444/grid/register/` - адрес хаба, транслируемый в консоли после его запуска.
+
+3. В хосте выполнить команду запуска тестов: 
+```bash
+pytest -v --browser=chrome --opencart_url=https://demo.opencart.com/
+```
+
+#### 2. Запуск тестов в BrowserStack
+
+Предварительно необходимо создать аккаунт в сервисе https://www.browserstack.com.
+
+```bash
+pytest -v \
+--browserstack_executor=https://alexanderknyazev2:sDCeYxp5XUhfQKQ8oxfy@hub-cloud.browserstack.com/wd/hub \
+--opencart_url=https://demo.opencart.com/
+```

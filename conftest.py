@@ -136,7 +136,7 @@ def webdriver_logging(request) -> bool:
 
 
 @pytest.fixture(scope="function")
-def browser(request: FixtureRequest, opencart_url: str, is_headless: bool, webdriver_logging: bool):
+def browser(request: FixtureRequest, opencart_url: str, is_headless: bool, webdriver_logging: bool) -> webdriver:
     """
     Launch browser and open page specified in --opencart_url command line option
     """
@@ -154,12 +154,60 @@ def browser(request: FixtureRequest, opencart_url: str, is_headless: bool, webdr
 
 
 @pytest.fixture(scope="function")
+def remote_browser(request: FixtureRequest) -> webdriver:
+    """
+    Launch browser in Selenium Hub specified by 'executor' url
+    """
+    browser = request.config.getoption(name="--browser")
+    executor = request.config.getoption(name="--executor")
+    capabilities = {
+        "browserName": browser,
+        "acceptSslCerts": True,
+        "acceptInsecureCerts": True
+    }
+    driver = webdriver.Remote(
+        command_executor=f"http://{executor}:4444/wd/hub",
+        desired_capabilities=capabilities
+    )
+    request.addfinalizer(driver.quit)
+    driver.maximize_window()
+    return driver
+#
+
+
+@pytest.fixture(scope="function")
+def remote_browserstack(request: FixtureRequest)  -> webdriver:
+    """
+    Launch browser in BrowserStack service specified by 'browserstack_executor' url
+    """
+
+    browserstack_executor = request.config.getoption(name="--browserstack_executor")
+
+    desired_cap = {
+
+        'os': 'Windows',
+        'os_version': '10',
+        'browser': 'Chrome',
+        'browser_version': '80',
+        'name': "alexanderknyazev2's First Test"
+    }
+
+    driver = webdriver.Remote(
+        command_executor=browserstack_executor,
+        desired_capabilities=desired_cap
+    )
+    request.addfinalizer(driver.quit)
+    return driver
+#
+
+
+@pytest.fixture(scope="function")
 def opencart_url(request: FixtureRequest) -> str:
     """
     URL of OpenCart page (absolute or relative to https://localhost)
     """
     url = str(request.config.getoption("--opencart_url"))
-    if url.startswith("https://localhost"):
+    if url.startswith("https://localhost") or url.startswith("https://demo.opencart.com"):
         return url
     elif url.startswith("/"):
         return f"https://localhost{url}"
@@ -177,6 +225,20 @@ def pytest_addoption(parser: Parser):
         default="chrome",
         choices=["firefox", "chrome", "opera"],
         help="Web driver for specified browser (defaults to firefox)"
+    )
+
+    parser.addoption(
+        "--executor",
+        action="store",
+        default="localhost",
+        help="URL of the remote server (defaults to 'http://localhost:4444/wd/hub')"
+    )
+
+    parser.addoption(
+        "--browserstack_executor",
+        action="store",
+        default="https://alexanderknyazev2:sDCeYxp5XUhfQKQ8oxfy@hub-cloud.browserstack.com/wd/hub",
+        help="URL of the BrowserStack server"
     )
 
     parser.addoption(
