@@ -11,6 +11,7 @@ from configuration import DriverEventListener
 pytest_plugins = [
     "fixtures.fixtures_admin_login_page",
     "fixtures.fixtures_administration_page",
+    "fixtures.fixtures_administration_page_db",
     "fixtures.fixtures_catalog_page",
     "fixtures.fixtures_login_page",
     "fixtures.fixtures_main_page",
