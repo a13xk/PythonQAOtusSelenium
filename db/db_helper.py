@@ -103,4 +103,16 @@ class DBHelper:
             self.cursor.execute(delete_in_oc_product_description)
             self.connection.commit()
     #
+
+    def check_product_added(self, product_name: str):
+        query_by_product_name_oc_product = f'SELECT product_id FROM oc_product_description WHERE name = "{product_name}"'
+        self.cursor.execute(query_by_product_name_oc_product)
+        product_ids_oc_product = tuple([product_id[0] for product_id in self.cursor.fetchall()])
+        assert len(product_ids_oc_product) == 1
+
+        query_by_product_name_oc_product_description = f'SELECT product_id FROM oc_product_description WHERE name = "{product_name}"'
+        self.cursor.execute(query_by_product_name_oc_product_description)
+        product_ids_oc_product_description = tuple([product_id[0] for product_id in self.cursor.fetchall()])
+        assert len(product_ids_oc_product_description) == 1
+    #
 #
