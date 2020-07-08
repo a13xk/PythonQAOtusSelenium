@@ -126,4 +126,22 @@ class DBHelper:
         self.cursor.execute(query_oc_product_description_by_product_id)
         assert not self.cursor.fetchall()
     #
+
+    def check_product_name_changed(self, old_product_name: str, modified_product_name: str):
+        # 1. Check old name is no longer available oc_product_description table
+        query_old_name = f'SELECT product_id FROM oc_product_description WHERE name = "{old_product_name}"'
+        self.cursor.execute(query_old_name)
+        assert not self.cursor.fetchall()
+
+        # 2. Check product is available by modified name
+        query_modified_name_oc_product_description = f'SELECT product_id FROM oc_product_description WHERE name = "{modified_product_name}"'
+        self.cursor.execute(query_modified_name_oc_product_description)
+        product_ids = tuple([product_id[0] for product_id in self.cursor.fetchall()])
+        assert len(product_ids) == 1
+
+        query_modified_name_oc_product = f'SELECT product_id FROM oc_product WHERE product_id = "{product_ids[0]}"'
+        self.cursor.execute(query_modified_name_oc_product)
+        product_ids_oc_product = tuple([product_id[0] for product_id in self.cursor.fetchall()])
+        assert len(product_ids_oc_product) == 1
+    #
 #

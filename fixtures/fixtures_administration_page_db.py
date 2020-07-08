@@ -38,5 +38,6 @@ def db_delete_product(db, product_data):
 @pytest.fixture(scope="function")
 def db_add_new_product(db, product_data):
     db.delete_product(product_name=product_data.get("name"))
+    db.delete_product(product_name=product_data.get("modified_name"))
     db.add_new_product(product_info=product_data)
 #
