@@ -12,7 +12,7 @@ class CatalogPage(BasePage):
     UL_BREADCRUMB = (By.CLASS_NAME, "breadcrumb")
     A_PRODUCT_COMPARE = (By.PARTIAL_LINK_TEXT, "Product Compare")
 
-    def __init__(self, driver: webdriver, url: str, logging_enabled: bool):
+    def __init__(self, driver: webdriver, logging_enabled: bool, url: str = ""):
         self.driver: webdriver = driver
         if not url:
             self.url: str = "https://localhost/index.php?route=product/category&path=20"

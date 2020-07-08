@@ -12,7 +12,7 @@ class MainPage(BasePage):
     DIV_CLASS_SLIDESHOW = (By.CLASS_NAME, "swiper-container.swiper-container-horizontal")
     A_YOUR_STORE = (By.LINK_TEXT, "Your Store")
 
-    def __init__(self, driver: webdriver, url: str, logging_enabled: bool):
+    def __init__(self, driver: webdriver, logging_enabled: bool, url: str = ""):
         self.driver: webdriver = driver
         if not url:
             self.url: str = "https://localhost"
