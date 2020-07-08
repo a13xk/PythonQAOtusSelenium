@@ -67,7 +67,7 @@ class DBHelper:
         last_id = max(product_ids)
 
         # 3. Insert into 'oc_product_description' table
-        name = product_info.get("product_name")
+        name = product_info.get("name")
         description = product_info.get("description")
         meta_tag_title = product_info.get("meta_tag_title")
         data_oc_product_description = (
