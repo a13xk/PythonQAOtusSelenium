@@ -16,4 +16,14 @@ class TestAdministrationPageDB:
         # Check product added in database
         db.check_product_added(product_name=product_data.get("name"))
     #
+
+    @pytest.mark.usefixtures("db_add_new_product")
+    def test_db_delete_product(self, catalog_products_page, product_data, db):
+        deleted_product_id = catalog_products_page.delete_product(product_name=product_data.get("name"))
+        all_input_checkboxes = catalog_products_page.find_elements(locator=catalog_products_page.INPUT_CHECKBOX)
+        assert all(checkbox.get_attribute("value") != deleted_product_id for checkbox in all_input_checkboxes)
+
+        # Check product deleted from database
+        db.check_product_deleted(product_id=deleted_product_id)
+    #
 #

@@ -115,4 +115,13 @@ class DBHelper:
         product_ids_oc_product_description = tuple([product_id[0] for product_id in self.cursor.fetchall()])
         assert len(product_ids_oc_product_description) == 1
     #
+
+    def check_product_deleted(self, product_id: int):
+        query_oc_product_by_product_id = f"SELECT product_id FROM oc_product WHERE product_id = {product_id}"
+        query_oc_product_description_by_product_id = f"SELECT product_id FROM oc_product_description WHERE product_id = {product_id}"
+        self.cursor.execute(query_oc_product_by_product_id)
+        assert not self.cursor.fetchall()
+        self.cursor.execute(query_oc_product_description_by_product_id)
+        assert not self.cursor.fetchall()
+    #
 #
