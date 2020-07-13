@@ -15,7 +15,7 @@ class AdminLoginPage(BasePage):
     DIV_PANEL_HEADING = (By.CLASS_NAME, "panel-heading")
     A_OPENCART = (By.LINK_TEXT, "OpenCart")
 
-    def __init__(self, driver: webdriver, url: str, logging_enabled: bool):
+    def __init__(self, driver: webdriver, logging_enabled: bool, url: str = ""):
         self.driver: webdriver = driver
         if not url:
             self.url: str = "https://localhost/admin"

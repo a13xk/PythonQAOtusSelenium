@@ -12,7 +12,7 @@ class LoginPage(BasePage):
     DIV_LIST_GROUP = (By.CLASS_NAME, "list-group")
     A_FORGOTTEN_PASSWORD = (By.LINK_TEXT, "Forgotten Password")
 
-    def __init__(self, driver: webdriver, url: str, logging_enabled: bool):
+    def __init__(self, driver: webdriver, logging_enabled: bool, url: str = ""):
         self.driver: webdriver = driver
         if not url:
             self.url: str = "https://localhost/index.php?route=account/login"

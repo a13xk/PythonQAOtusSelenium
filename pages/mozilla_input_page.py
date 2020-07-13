@@ -10,7 +10,7 @@ class MozillaInputPage(BasePage):
     INPUT_ID_FILE = (By.XPATH, "//input[@id='file']")
     BUTTON_SUBMIT = (By.XPATH, "//input[@id='file']/parent::div/parent::form/div/button")
 
-    def __init__(self, driver: webdriver, url: str):
+    def __init__(self, driver: webdriver, url: str = ""):
         self.driver: webdriver = driver
         if not url:
             self.url: str = "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input/file"

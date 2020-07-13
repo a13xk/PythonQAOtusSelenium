@@ -13,6 +13,14 @@ class OpenCart:
 #
 
 
+class BitnamiDatabase:
+    HOST = "localhost"
+    PORT = 3306
+    DB_NAME = "bitnami_opencart"
+    DB_USER = "bn_opencart"
+#
+
+
 class DriverEventListener(AbstractEventListener):
 
     def __init__(self, log_filename: str, log_level: int = logging.INFO):
