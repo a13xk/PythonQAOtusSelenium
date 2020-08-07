@@ -4,8 +4,17 @@
 
 Основной репозиторий с домашними заданиями https://github.com/a13xk/PythonQAOTUS.
 
+* [2 месяц, модуль 9 - Поиск и действия с элементами](#02_09)
+* [2 месяц, модуль 10 - Ожидания элементов](#02_10)
+* [2 месяц, модуль 11 - JavaScript in Selenium](#02_11)
+* [2 месяц, модуль 12 - Архитектура веб-тестов (Page Object, Page Element)](#02_12)
+* [2 месяц, модуль 13 - Работа с окнами](#02_13)
+* [2 месяц, модуль 14 - Протоколирование и отчетность](#02_14)
+* [2 месяц, модуль 15 - Удаленный запуск (Grid)](#02_15)
+* [3 месяц, модуль 19 - Работа с БД](#03_19)
 
-## 2 месяц, модуль 9 - Поиск и действия с элементами
+
+## <a id="02_09"></a> 2 месяц, модуль 9 - Поиск и действия с элементами
 
 ### Домашнее задание
 Поиск элементов на странице.
@@ -45,7 +54,7 @@
     pytest -v tests/test_admin_page.py --browser=chrome --opencart_url=https://localhost/admin/
     ```
 
-## 2 месяц, модуль 10 - Ожидания элементов
+## <a id="02_10"></a> 2 месяц, модуль 10 - Ожидания элементов
 
 ### Домашнее задание
 Ожидание элементов.
@@ -70,7 +79,7 @@ pytest -v tests/test_admin_page.py::TestAdminPage::test_login_logout --browser=c
 pytest -v tests/test_admin_page.py::TestAdminPage::test_browse_to_catalog_products_table --browser=chrome --opencart_url=https://localhost/admin/
 ```
 
-## 2 месяц, модуль 11 - JavaScript in Selenium
+## <a id="02_11"></a> 2 месяц, модуль 11 - JavaScript in Selenium
 
 ### Домашнее задание
 
@@ -97,7 +106,7 @@ pytest -v tests/test_admin_page.py::TestAdminPage::test_browse_to_catalog_produc
     pytest -v tests/test_admin_page.py::TestAdminPage::test_edit_product
     ```
 
-## 2 месяц, модуль 12 - Архитектура веб-тестов (Page Object, Page Element)
+## <a id="02_12"></a> 2 месяц, модуль 12 - Архитектура веб-тестов (Page Object, Page Element)
 
 ### Домашнее задание
 PageObject.
@@ -141,7 +150,7 @@ PageObject.
     pytest -v --browser=chrome tests/test_administration_page.py::TestAdministrationPage::test_browse_to_attribute_groups
     ```
 
-## 2 месяц, модуль 13 - Работа с окнами
+## <a id="02_13"></a> 2 месяц, модуль 13 - Работа с окнами
 
 ### Домашнее задание
 
@@ -171,7 +180,7 @@ PageObject.
 pytest -v --browser=chrome tests/test_upload_file.py
 ```
 
-## 2 месяц, модуль 14 - Протоколирование и отчетность
+## <a id="02_14"></a> 2 месяц, модуль 14 - Протоколирование и отчетность
 
 ### Домашнее задание
 
@@ -201,7 +210,7 @@ pytest -v --browser=chrome --base_class_logging tests/test_catalog_page.py
 pytest -v --browser=chrome --webdriver_logging tests/test_product_page.py
 ```
 
-## 2 месяц, модуль 15 - Удаленный запуск (Grid)
+## <a id="02_15"></a> 2 месяц, модуль 15 - Удаленный запуск (Grid)
 
 ### Домашнее задание
 
@@ -262,7 +271,7 @@ pytest -v \
 --opencart_url=https://demo.opencart.com/
 ```
 
-## 3 месяц, модуль 19 - Работа с БД
+## <a id="03_19"></a> 3 месяц, модуль 19 - Работа с БД
 
 ### Домашнее задание
 
