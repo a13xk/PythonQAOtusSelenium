@@ -177,7 +177,32 @@ def remote_browser(request: FixtureRequest) -> webdriver:
 
 
 @pytest.fixture(scope="function")
-def remote_browserstack(request: FixtureRequest)  -> webdriver:
+def selenoid_browser(request: FixtureRequest) -> webdriver:
+    """
+    Launch browser in Selenoid specified by 'executor' url
+    """
+    browser = request.config.getoption(name="--browser")
+    selenoid = request.config.getoption(name="--selenoid")
+    executor_url = f"http://{selenoid}:4444/wd/hub"
+    capabilities = {
+        "browserName": browser,
+        "name": request.node.name,
+        "version": "",
+        "enableVNC": True,
+        "enableVideo": True
+    }
+    driver = webdriver.Remote(
+        command_executor=executor_url,
+        desired_capabilities=capabilities
+    )
+    request.addfinalizer(driver.quit)
+    driver.maximize_window()
+    return driver
+#
+
+
+@pytest.fixture(scope="function")
+def remote_browserstack(request: FixtureRequest) -> webdriver:
     """
     Launch browser in BrowserStack service specified by 'browserstack_executor' url
     """
@@ -233,6 +258,12 @@ def pytest_addoption(parser: Parser):
         action="store",
         default="localhost",
         help="URL of the remote server (defaults to 'http://localhost:4444/wd/hub')"
+    )
+
+    parser.addoption(
+        "--selenoid",
+        action="store",
+        default="localhost"
     )
 
     parser.addoption(
