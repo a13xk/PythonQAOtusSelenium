@@ -286,7 +286,15 @@ pytest -v \
 
 ### Решение
 
-TODO 
+1. Запуск Selenoid:
+```bash
+./cm selenoid start
+./cm selenoid-ui start
+```
+2. Прогон тестов:
+```bash
+pytest -v tests/test_selenoid_main_page.py --browser=firefox --opencart_url=https://demo.opencart.com/
+```
 
 ## <a id="03_19"></a> 3 месяц, модуль 19 - Работа с БД
 
