@@ -5,33 +5,45 @@ from pages.administration_page import AdministrationPage
 
 
 class TestAdminLoginPage:
-
     @allure.title("Check logo image")
+    @allure.feature("Check elements before logging in")
+    @allure.story("Logo")
     def test_header_logo(self, admin_login_page):
         assert admin_login_page.find_element(locator=admin_login_page.IMG_LOGO)
+
     #
 
     @allure.title("Check username input label")
+    @allure.feature("Check elements before logging in")
+    @allure.story("Labels")
     def test_username_label(self, admin_login_page):
         assert admin_login_page.find_element(locator=admin_login_page.LABEL_FOR_USERNAME)
     #
 
     @allure.title("Check restore forgotten password link by XPath")
+    @allure.feature("Check elements before logging in")
+    @allure.story("Links")
     def test_forgotten_password_link(self, admin_login_page):
         assert admin_login_page.find_element(locator=admin_login_page.A_FORGOTTEN_PASSWORD)
     #
 
     @allure.title('Check "Please enter your login details." heading')
+    @allure.feature("Check elements before logging in")
+    @allure.story("Labels")
     def test_panel_heading(self, admin_login_page):
         assert admin_login_page.find_element(locator=admin_login_page.DIV_PANEL_HEADING)
     #
 
     @allure.title("Check OpenCart hyperlink")
+    @allure.feature("Check elements before logging in")
+    @allure.story("Links")
     def test_opencart_link(self, admin_login_page):
         assert admin_login_page.find_element(locator=admin_login_page.A_OPENCART)
     #
 
     @allure.title("Log in to administration page and then log out")
+    @allure.feature("Check elements after logging in")
+    @allure.story("Links")
     def test_login_logout(self, admin_login_page, browser, base_class_logging):
         admin_login_page.log_in(
             username=OpenCart.ADMIN_USERNAME,
