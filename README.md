@@ -311,7 +311,18 @@ pytest -v tests/test_selenoid_main_page.py --browser=firefox --opencart_url=http
 
 ### Решение
 
-TODO
+1. Тест с этапами:
+```bash
+pytest -v -s --alluredir=allure-reports tests/test_admin_login_page.py::TestAdminLoginPage::test_login_logout
+```
+2. Тесты с декораторами
+```bash
+pytest -v -s --alluredir=allure-reports tests/test_admin_login_page.py
+```
+3. Логи браузера и скриншот при падении
+```bash
+pytest -v -s --alluredir=allure-reports tests/test_admin_login_page.py::TestAdminLoginPage::test_header_logo_negative
+```
 
 ## <a id="03_19"></a> 3 месяц, модуль 19 - Работа с БД
 
