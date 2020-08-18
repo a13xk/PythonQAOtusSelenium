@@ -11,6 +11,13 @@ class TestAdminLoginPage:
     @allure.story("Logo")
     def test_header_logo(self, admin_login_page):
         assert admin_login_page.find_element(locator=admin_login_page.IMG_LOGO)
+    #
+
+    @allure.title("Negative check for logo image")
+    @allure.feature("Check elements before logging in")
+    @allure.story("Logo")
+    def test_header_logo_negative(self, admin_login_page):
+        assert admin_login_page.find_element(locator=admin_login_page.IMG_LOGO_NONEXISTENT)
 
     #
 
