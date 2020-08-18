@@ -46,11 +46,17 @@ class BasePage:
                     self.logger.info(f"Found element {element} by locator {locator}")
                 return element
         except TimeoutException:
-            # Attach browser logs
+            # Allure: attach browser logs
             allure.attach(
                 body=json.dumps(self.driver.capabilities, indent=4),
                 name="Capabilities",
                 attachment_type=allure.attachment_type.JSON
+            )
+            # Allure: attach browser screenshot
+            allure.attach(
+                body=self.driver.get_screenshot_as_png(),
+                name="Screenshot",
+                attachment_type=allure.attachment_type.PNG
             )
             if self.logging_enabled:
                 self.logger.error(f"Failed to find element by locator {locator}")
