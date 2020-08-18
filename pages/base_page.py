@@ -1,5 +1,7 @@
+import json
 import logging
 
+import allure
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
@@ -44,6 +46,12 @@ class BasePage:
                     self.logger.info(f"Found element {element} by locator {locator}")
                 return element
         except TimeoutException:
+            # Attach browser logs
+            allure.attach(
+                body=json.dumps(self.driver.capabilities, indent=4),
+                name="Capabilities",
+                attachment_type=allure.attachment_type.JSON
+            )
             if self.logging_enabled:
                 self.logger.error(f"Failed to find element by locator {locator}")
                 self.logger.error(f'Caught {TimeoutException.__name__}:\n{TimeoutException}')
