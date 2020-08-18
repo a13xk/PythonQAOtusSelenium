@@ -1,4 +1,5 @@
 import allure
+import pytest
 
 from configuration import OpenCart
 from pages.administration_page import AdministrationPage
@@ -44,6 +45,7 @@ class TestAdminLoginPage:
     @allure.title("Log in to administration page and then log out")
     @allure.feature("Check elements after logging in")
     @allure.story("Links")
+    @pytest.mark.slow
     def test_login_logout(self, admin_login_page, browser, base_class_logging):
 
         with allure.step("Log in to administration page"):
