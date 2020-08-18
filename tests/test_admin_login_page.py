@@ -46,26 +46,17 @@ class TestAdminLoginPage:
     @allure.story("Links")
     def test_login_logout(self, admin_login_page, browser, base_class_logging):
 
-        @allure.step("Log in to administration page")
-        def log_in(_admin_login_page):
-            _admin_login_page.log_in(
+        with allure.step("Log in to administration page"):
+            admin_login_page.log_in(
                 username=OpenCart.ADMIN_USERNAME,
                 password=OpenCart.ADMIN_PASSWORD
             )
+        with allure.step("Check administration page"):
+            administration_page = AdministrationPage(driver=browser, logging_enabled=base_class_logging)
+            assert administration_page.find_element(locator=administration_page.DIV_DASHBOARD)
 
-        @allure.step("Check administration page")
-        def check_administration_page(_browser, _logging):
-            _administration_page = AdministrationPage(driver=_browser, logging_enabled=_logging)
-            assert _administration_page.find_element(locator=_administration_page.DIV_DASHBOARD)
-            return _administration_page
-
-        @allure.step("Log out")
-        def log_out(_ap):
-            _ap.log_out()
-
-        log_in(admin_login_page)
-        administration_page = check_administration_page(browser, base_class_logging)
-        log_out(administration_page)
+        with allure.step("Log out"):
+            administration_page.log_out()
 
     #
 #
