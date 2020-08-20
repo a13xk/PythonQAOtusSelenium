@@ -12,6 +12,7 @@
 * [2 месяц, модуль 14 - Протоколирование и отчетность](#02_14)
 * [2 месяц, модуль 15 - Удаленный запуск (Grid)](#02_15)
 * [3 месяц, модуль 16 - Selenoid](#03_16)
+* [3 месяц, модуль 17 - Selenoid](#03_17)
 * [3 месяц, модуль 19 - Работа с БД](#03_19)
 
 
@@ -294,6 +295,33 @@ pytest -v \
 2. Прогон тестов:
 ```bash
 pytest -v tests/test_selenoid_main_page.py --browser=firefox --opencart_url=https://demo.opencart.com/
+```
+
+## <a id="03_17"></a> 3 месяц, модуль 17 - Allure
+
+### Домашнее задание
+Добавить allure к своему проекту
+Цель: Попрактиковаться в использовании системы репортинга allure
+В готовый проект с реализованым PageObject паатерном интегрировать систему репортинга.
+1) Описать стэпы
+2) Добавить декораторы title, story, feature
+3) Добавить аттачи логов браузера (в хроме) при нахождении ошибок.
+4) Добавить припрепление скриншотов при падении теста.
+Критерии оценки: Приложить скриншот сгенерированного отчета (с открытыми вкладками степов) и ссылку на пулл-реквест к своему проекту. 
+
+### Решение
+
+1. Тест с этапами:
+```bash
+pytest -v -s --alluredir=allure-reports tests/test_admin_login_page.py::TestAdminLoginPage::test_login_logout
+```
+2. Тесты с декораторами
+```bash
+pytest -v -s --alluredir=allure-reports tests/test_admin_login_page.py
+```
+3. Логи браузера и скриншот при падении
+```bash
+pytest -v -s --alluredir=allure-reports tests/test_admin_login_page.py::TestAdminLoginPage::test_header_logo_negative
 ```
 
 ## <a id="03_19"></a> 3 месяц, модуль 19 - Работа с БД

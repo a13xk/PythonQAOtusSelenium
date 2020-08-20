@@ -47,6 +47,7 @@ def driver_factory(browser_name: str, is_headless: bool = False, webdriver_loggi
         capabilities = DesiredCapabilities.CHROME.copy()
         capabilities['acceptSslCerts'] = True
         capabilities['acceptInsecureCerts'] = True
+        capabilities['loggingPrefs'] = {'browser': 'ALL'}
 
         if webdriver_logging:
             driver = EventFiringWebDriver(

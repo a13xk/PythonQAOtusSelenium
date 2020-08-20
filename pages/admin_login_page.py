@@ -7,6 +7,7 @@ from .base_page import BasePage
 class AdminLoginPage(BasePage):
 
     IMG_LOGO = (By.ID, "header-logo")
+    IMG_LOGO_NONEXISTENT = (By.ID, "header-logo111")
     INPUT_USERNAME = (By.ID, "input-username")
     INPUT_PASSWORD = (By.ID, "input-password")
     A_FORGOTTEN_PASSWORD = (By.XPATH, "//div[@class='form-group']/span/a")
